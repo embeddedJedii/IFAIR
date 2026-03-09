@@ -3,6 +3,9 @@
 #include "pzem.h"
 // put function declarations here:
 //Setting up the PZEM hardwareSerial 
+
+//vARIABLE declarations
+uint8_t batteryPerecntage = 70; // Assuming battery percentage is 70 for testing
 HardwareSerial pzemSerial(2); // Use UART1 for PZEM communication
 PZEM004Tv30 pzem1(pzemSerial, 16, 17, 0x01); // Initialize PZEM with the hardware serial
 PZEM004Tv30 pzem2(pzemSerial, 16, 17, 0x44); // Initialize second PZEM with the same hardware serial but different pins and address
@@ -20,7 +23,8 @@ void loop() {
 readPZEM(pzem1, "The address for this pzem is 0x01");
 readPZEM(pzem2, "The address for this PZEM is 0x44");
 readPZEM(pzem3, "The address for this PZEM is 0x55");
+shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
+turnOnPiority(pzem1, pzem2, pzem3, batteryPerecntage); 
 Serial.println("==============================");
 delay(2000);
 }
-
