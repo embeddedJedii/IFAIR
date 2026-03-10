@@ -24,7 +24,7 @@ readPZEM(pzem1, "The address for this pzem is 0x01");
 readPZEM(pzem2, "The address for this PZEM is 0x44");
 readPZEM(pzem3, "The address for this PZEM is 0x55");
 shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
-turnOnPiority(pzem1, pzem2, pzem3, batteryPerecntage); 
+turnOnPiority(batteryPerecntage); 
 Serial.println("==============================");
 delay(2000);
 }

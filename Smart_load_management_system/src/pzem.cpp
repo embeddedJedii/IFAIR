@@ -1,14 +1,15 @@
 
 #include "pzem.h"
 #include <PZEM004Tv30.h>
-#define COIL_1 27
-#define COIL_2 26
-#define COIL_3 25
+const uint8_t COIL_1 = 27;
+const uint8_t COIL_2 = 26;
+const uint8_t COIL_3 = 25;
 
 //Variable declearations
 uint8_t status1 = 1;
 uint8_t status2 = 1;
 uint8_t status3 = 1;
+uint8_t systemStatus = 1;
 void readPZEM(PZEM004Tv30 &pzem, String name)
 {
     float voltage = pzem.voltage();
@@ -98,9 +99,95 @@ void shutDownPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3,
         digitalWrite(COIL_1, LOW);
         digitalWrite(COIL_2, LOW);
         digitalWrite(COIL_3, LOW);
-        status1 = status2= status3 = 0;
+        status1 = status2= status3 = systemStatus = 0; // Assuming 0 means off
     }
 }
-void turnOnPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3, int batteryPercentage){
+void turnOnPiority(int batteryPercentage){
+if(!systemStatus){
+    // This means that all the loads are currently off
+    if(batteryPercentage >25 && batteryPercentage <=45){
+          //This means that all the loads are currently off
+          digitalWrite(COIL_1, HIGH);
+          status1 = 1; //TURN ON THE LOAD ATTACHED TO COIL 1
+          systemStatus = 1;   
+    }
+    // }else if(batteryPercentage > 45 && batteryPercentage <= 70){
+    //       //This means that all the loads are currently off
+    //       digitalWrite(COIL_1, HIGH);
+    //       digitalWrite(COIL_2, HIGH);
+    //       status1 = status2 = 1; //TURN ON THE LOAD ATTACHED TO COIL 1 AND COIL 2
+    // }else if (batteryPercentage > 70){
+    //      digitalWrite(COIL_1, HIGH);
+    //      digitalWrite(COIL_2, HIGH);
+    //      digitalWrite(COIL_3, HIGH);
+    //      status1 = status2 = status3 = 1; //TURN ON THE LOAD ATTACHED TO COIL 1, COIL 2 AND COIL 3
+    // }
+    
+}else {
+    // This means that atleast one of the outputs is currently on
+    //i.e the battery percentage is greater than 45 percent
+    if(batteryPercentage > 45 && batteryPercentage <= 70){
+        if(!status1){
+            digitalWrite(COIL_1, HIGH);
+            status1 = 1; //TURN ON THE LOAD ATTACHED TO COIL 1
+        }
+        else if(!status2){
+            digitalWrite(COIL_2, HIGH);
+            status2 = 1; //TURN ON THE LOAD ATTACHED TO COIL 2 
+        }
+    }else if(batteryPercentage > 70){
+        if(!status1 || !status2 || !status3){
+       digitalWrite(COIL_1, HIGH);
+       digitalWrite(COIL_2, HIGH);
+       digitalWrite(COIL_3, HIGH);
+       status1 = status2=status3=systemStatus = 1; 
+    //TURN ON THE LOAD ATTACHED TO COIL 1, COIL 2 AND COIL 3
+        }
+   
+    } 
+}
+}
+
+
+
+/*
+void turnOnPiority(int batteryPercentage)
+{
+
+if(!systemStatus)
+{
+    // All loads are OFF
+
+    if(batteryPercentage > 25 && batteryPercentage <= 45)
+    {
+        digitalWrite(COIL_1, HIGH);
+        status1 = 1;
+        systemStatus = 1;
+    }
+}
+
+else
+{
+    // At least one load is ON
+
+    if(batteryPercentage > 45 && batteryPercentage <= 70)
+    {
+        if(!status2)
+        {
+            digitalWrite(COIL_2, HIGH);
+            status2 = 1;
+        }
+    }
+
+    else if(batteryPercentage > 70)
+    {
+        if(!status3)
+        {
+            digitalWrite(COIL_3, HIGH);
+            status3 = 1;
+        }
+    }
+}
 
 }
+*/
