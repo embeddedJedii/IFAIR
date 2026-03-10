@@ -1,11 +1,12 @@
 #include <Arduino.h>
 #include <PZEM004Tv30.h>
 #include "pzem.h"
+#include "batteryPercentage.h"
 // put function declarations here:
 //Setting up the PZEM hardwareSerial 
 
 //vARIABLE declarations
-uint8_t batteryPerecntage = 70; // Assuming battery percentage is 70 for testing
+float batteryPerecntage = 70; // Assuming battery percentage is 70 for testing
 HardwareSerial pzemSerial(2); // Use UART1 for PZEM communication
 PZEM004Tv30 pzem1(pzemSerial, 16, 17, 0x01); // Initialize PZEM with the hardware serial
 PZEM004Tv30 pzem2(pzemSerial, 16, 17, 0x44); // Initialize second PZEM with the same hardware serial but different pins and address
@@ -23,6 +24,16 @@ void loop() {
 readPZEM(pzem1, "The address for this pzem is 0x01");
 readPZEM(pzem2, "The address for this PZEM is 0x44");
 readPZEM(pzem3, "The address for this PZEM is 0x55");
+ float voltage = readVoltage() + 2.77;
+ float batteryPercentage = getBatteryPercentage(voltage);
+
+ if(voltage > 30) Serial.println("48V Battery Detected");
+ else Serial.println("24V Battery Detected");
+
+ Serial.print("Voltage: "); Serial.println(voltage);
+ Serial.print("Battery: "); Serial.print(batteryPercentage); Serial.println("%");
+ Serial.println("----------------------");
+
 shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
 turnOnPiority(batteryPerecntage); 
 Serial.println("==============================");
