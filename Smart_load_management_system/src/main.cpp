@@ -2,6 +2,7 @@
 #include <PZEM004Tv30.h>
 #include "pzem.h"
 #include "batteryPercentage.h"
+#include "I2C.h"
 // put function declarations here:
 //Setting up the PZEM hardwareSerial 
 
@@ -17,6 +18,7 @@ void setup() {
   
   Serial.begin(115200);
   Serial.printf("Getting the Energy Meter started");
+  Wire.begin(); // Master mode
 }
 
 void loop() {
@@ -37,5 +39,28 @@ readPZEM(pzem3, "The address for this PZEM is 0x55");
 shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
 turnOnPiority(batteryPerecntage); 
 Serial.println("==============================");
+
+  data.energy1 = 10.5;
+  data.energy2 = 11.2;
+  data.energy3 = 12.1;
+
+  data.voltage1 = 220.5;
+  data.voltage2 = 221.1;
+  data.voltage3 = 219.8;
+
+  data.current1 = 5.2;
+  data.current2 = 4.8;
+  data.current3 = 6.1;
+
+  data.frequency = 50.0;
+
+  data.power1 = 1150;
+  data.power2 = 1100;
+  data.power3 = 1200;
+
+  data.batteryVoltage = 27.5;
+  data.temperature = 32.4;
+  data.totalLoad = 3450;
+  sendData();
 delay(2000);
 }

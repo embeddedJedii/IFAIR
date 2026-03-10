@@ -15,3 +15,4 @@ float readVoltage();
 float getBatteryPercentage(float voltage);
 
 #endif // BATTERYPERCENTAGE_H
+            
