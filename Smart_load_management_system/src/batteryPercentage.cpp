@@ -19,7 +19,7 @@ float getBatteryPercentage(float voltage) {
     float minV, maxV;
 
     // Detect battery system
-    if(voltage > 30) { // > 35V → 48V battery
+    if(voltage > 33) { // > 35V → 48V battery
         minV = 42.0; 
         maxV = 58.8;
     } else {           // 24V battery
@@ -32,18 +32,3 @@ float getBatteryPercentage(float voltage) {
     Serial.printf("The percentage is %.2f", percentage);
     return percentage;
 }
-
-
-// void loop() {
-//     float voltage = readVoltage() + 2.77;
-//     float percent = getBatteryPercentage(voltage);
-
-//     if(voltage > 30) Serial.println("48V Battery Detected");
-//     else Serial.println("24V Battery Detected");
-
-//     Serial.print("Voltage: "); Serial.println(voltage);
-//     Serial.print("Battery: "); Serial.print(percent); Serial.println("%");
-//     Serial.println("----------------------");
-
-//     delay(2000);
-// }

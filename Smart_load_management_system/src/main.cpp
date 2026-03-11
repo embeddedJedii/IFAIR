@@ -3,11 +3,12 @@
 #include "pzem.h"
 #include "batteryPercentage.h"
 #include "I2C.h"
+#include "thermistor.h"
 // put function declarations here:
 //Setting up the PZEM hardwareSerial 
 
 //vARIABLE declarations
-float batteryPerecntage = 70; // Assuming battery percentage is 70 for testing
+float batteryPerecntage; // Assuming battery percentage is 70 for testing
 HardwareSerial pzemSerial(2); // Use UART1 for PZEM communication
 PZEM004Tv30 pzem1(pzemSerial, 16, 17, 0x01); // Initialize PZEM with the hardware serial
 PZEM004Tv30 pzem2(pzemSerial, 16, 17, 0x44); // Initialize second PZEM with the same hardware serial but different pins and address
@@ -26,8 +27,8 @@ void loop() {
 readPZEM(pzem1, "The address for this pzem is 0x01");
 readPZEM(pzem2, "The address for this PZEM is 0x44");
 readPZEM(pzem3, "The address for this PZEM is 0x55");
- float voltage = readVoltage() + 2.77;
- float batteryPercentage = getBatteryPercentage(voltage);
+ float static voltage = readVoltage() + 2.77;
+ float static batteryPercentage = getBatteryPercentage(voltage);
 
  if(voltage > 30) Serial.println("48V Battery Detected");
  else Serial.println("24V Battery Detected");
@@ -38,29 +39,31 @@ readPZEM(pzem3, "The address for this PZEM is 0x55");
 
 shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
 turnOnPiority(batteryPerecntage); 
+float static temperature = tempData();
 Serial.println("==============================");
 
-  data.energy1 = 10.5;
-  data.energy2 = 11.2;
-  data.energy3 = 12.1;
+  data.energy1 = 10.5; //pzem1.energy();
+  data.energy2 = 11.2; //pzem2.energy();
+  data.energy3 = 12.1; //pzem3.energy();
 
-  data.voltage1 = 220.5;
-  data.voltage2 = 221.1;
-  data.voltage3 = 219.8;
+  data.voltage1 = 220.5; //pzem1.voltage();
+  data.voltage2 = 221.1; //pzem2.voltage();
+  data.voltage3 = 219.8; //pzem3.voltage();
 
-  data.current1 = 5.2;
-  data.current2 = 4.8;
-  data.current3 = 6.1;
+  data.current1 = 5.2; //pzem1.current();
+  data.current2 = 4.8; //pzem2.current();
+  data.current3 = 6.1; //pzem3.current();
 
-  data.frequency = 50.0;
+  data.frequency = 50.0; //pzem1.frequency(); All pzems should have the same frequency since they are all from the same inverter
 
-  data.power1 = 1150;
-  data.power2 = 1100;
-  data.power3 = 1200;
+  data.power1 = 1150; //pzem1.power();
+  data.power2 = 1100; //pzem2.power();
+  data.power3 = 1200; //pzem3.power();
 
-  data.batteryVoltage = 27.5;
-  data.temperature = 32.4;
-  data.totalLoad = 3450;
+  data.batteryVoltage = 27.5; // voltage
+  data.temperature = 32.4; //temperature;
+  data.totalLoad = 3450;  //total energy consumed
+  data.percentage = batteryPercentage;
   sendData();
 delay(2000);
 }

@@ -29,6 +29,7 @@ struct SensorData
   float batteryVoltage;
   float temperature;
   float totalLoad;
+  float percentage;
 };
 
 extern SensorData data;
