@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#define fanPin 18
+
 #define THERMISTOR_PIN 32
 
 const float SERIES_RESISTOR = 10000.0;   // 10k resistor

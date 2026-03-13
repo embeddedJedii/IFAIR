@@ -6,7 +6,7 @@
 #include "thermistor.h"
 // put function declarations here:
 //Setting up the PZEM hardwareSerial 
-
+#define fanPin 18
 //vARIABLE declarations
 float batteryPerecntage; // Assuming battery percentage is 70 for testing
 HardwareSerial pzemSerial(2); // Use UART1 for PZEM communication
@@ -40,6 +40,8 @@ readPZEM(pzem3, "The address for this PZEM is 0x55");
 shutDownPiority(pzem1, pzem2, pzem3, batteryPerecntage); // Assuming battery percentage is 70 for testing
 turnOnPiority(batteryPerecntage); 
 float static temperature = tempData();
+if(temperature >32.00) digitalWrite(fanPin, HIGH);
+else digitalWrite(fanPin, LOW);
 Serial.println("==============================");
 
   data.energy1 = 10.5; //pzem1.energy();
@@ -49,7 +51,6 @@ Serial.println("==============================");
   data.voltage1 = 220.5; //pzem1.voltage();
   data.voltage2 = 221.1; //pzem2.voltage();
   data.voltage3 = 219.8; //pzem3.voltage();
-
   data.current1 = 5.2; //pzem1.current();
   data.current2 = 4.8; //pzem2.current();
   data.current3 = 6.1; //pzem3.current();
@@ -67,3 +68,4 @@ Serial.println("==============================");
   sendData();
 delay(2000);
 }
+    

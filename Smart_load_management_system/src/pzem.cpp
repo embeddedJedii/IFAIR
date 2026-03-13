@@ -21,8 +21,9 @@ void readPZEM(PZEM004Tv30 &pzem, String name)
     float power = pzem.power();
     float energy = pzem.energy();
     float frequency = pzem.frequency();
+    uint8_t address = pzem.readAddress();
    //loat pf = pzem.pf();
-    Serial.println(name);
+    Serial.printf("The address is 0x%02X\n", address);
     Serial.printf("Voltage: %.2f V\n", voltage);
     Serial.printf("Current: %.2f A\n", current);
     Serial.printf("Power: %.2f W\n", power);
