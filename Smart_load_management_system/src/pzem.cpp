@@ -27,7 +27,7 @@ void readPZEM(PZEM004Tv30 &pzem, String name)
     Serial.printf("Voltage: %.2f V\n", voltage);
     Serial.printf("Current: %.2f A\n", current);
     Serial.printf("Power: %.2f W\n", power);
-    Serial.printf("Energy: %.2f Wh\n", energy);
+    Serial.printf("Energy: %.2f Wh\n", energy); 
     Serial.printf("Frequency: %.2f Hz\n", frequency);
 }
 
@@ -67,7 +67,6 @@ void shutDownPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3,
         Serial.println("Two or more PZEMs have the same highest power consumption.");
     }
     }
-    
     else if(batteryPercentage<= 45 && batteryPercentage > 25){
      if(!status1){
         if(power2 > power3){
