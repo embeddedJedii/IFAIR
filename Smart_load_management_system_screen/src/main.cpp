@@ -6,6 +6,7 @@
 #include "slave_I2C.h"
 #include "ui/ui.h"
 #include "ui/images.h"
+#include "ui/screens.h"
 /* ================= TOUCH PINS ================= */
 #define XPT2046_IRQ   36
 #define XPT2046_MOSI  32
@@ -46,7 +47,7 @@ void my_disp_flush(lv_display_t *disp, const lv_area_t *area, uint8_t *color_p)
 
 //     char buf[8];
 //     lv_snprintf(buf, sizeof(buf), "%d", (int) lv_slider_get_value(objects.main_slider));
-//     lv_label_set_text(objects.label_feels_like, buf);
+//    lv_label_set_text(objects.label_feels_like, buf);
 // }
 
 // Callback for changing the switch status
@@ -223,7 +224,8 @@ void loop()
     // lv_label_set_text_fmt(objects.freq_value1, "%d", receivedData.frequency);
     // lv_label_set_text_fmt(objects.energy_value1, "%d", receivedData.energy1);
     // lv_label_set_text_fmt(objects.energy_value2, "%d", receivedData.energy2);
-    // lv_label_set_text_fmt(objects.energy_value3, "%d", receivedData.energy3);
+    lv_label_set_text_fmt(objects.energy_value3, "%d", receivedData.energy3);
+
     lv_tick_inc(5);
     lv_timer_handler();
     delay(5);
