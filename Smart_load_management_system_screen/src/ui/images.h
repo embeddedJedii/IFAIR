@@ -7,26 +7,14 @@
 extern "C" {
 #endif
 
-extern const lv_img_dsc_t img_icon_location_11p;
-extern const lv_img_dsc_t img_icon_temp_22p;
-extern const lv_img_dsc_t img_icon_max_11p;
-extern const lv_img_dsc_t img_icon_min_11p;
-extern const lv_img_dsc_t img_icon_humd_22p;
-extern const lv_img_dsc_t img_icon_wind_11p;
-extern const lv_img_dsc_t img_icon_pressure_11p;
-extern const lv_img_dsc_t img_icon_visibility_11p;
-extern const lv_img_dsc_t img_icon_01d_72p;
-extern const lv_img_dsc_t img_icon_01n_72p;
-extern const lv_img_dsc_t img_icon_02d_72p;
-extern const lv_img_dsc_t img_icon_02n_72p;
-extern const lv_img_dsc_t img_icon_03d_03n_72p;
-extern const lv_img_dsc_t img_icon_04d_04n_72p;
-extern const lv_img_dsc_t img_icon_09d_09n_72p;
-extern const lv_img_dsc_t img_icon_10d_72p;
-extern const lv_img_dsc_t img_icon_10n_72p;
-extern const lv_img_dsc_t img_icon_11d_11n_72p;
-extern const lv_img_dsc_t img_icon_13d_13n_72p;
-extern const lv_img_dsc_t img_icon_50d_50n_72p;
+extern const lv_img_dsc_t img_logo;
+extern const lv_img_dsc_t img_plug;
+extern const lv_img_dsc_t img_battery_volt_icon;
+extern const lv_img_dsc_t img_energy_resize2;
+extern const lv_img_dsc_t img_full_batt;
+extern const lv_img_dsc_t img_power_button_resize;
+extern const lv_img_dsc_t img_red_power_button;
+extern const lv_img_dsc_t img_t_emp;
 
 #ifndef EXT_IMG_DESC_T
 #define EXT_IMG_DESC_T
@@ -36,8 +24,7 @@ typedef struct _ext_img_desc_t {
 } ext_img_desc_t;
 #endif
 
-extern const ext_img_desc_t images[20];
-
+extern const ext_img_desc_t images[8];
 
 #ifdef __cplusplus
 }

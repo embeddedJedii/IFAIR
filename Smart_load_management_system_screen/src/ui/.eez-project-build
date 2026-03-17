@@ -1,0 +1,24 @@
+{
+  "files": [
+    "actions.h",
+    "fonts.h",
+    "images.c",
+    "images.h",
+    "screens.c",
+    "screens.h",
+    "structs.h",
+    "styles.c",
+    "styles.h",
+    "ui.c",
+    "ui.h",
+    "ui_image_battery_volt_icon.c",
+    "ui_image_energy_resize2.c",
+    "ui_image_full_batt.c",
+    "ui_image_logo.c",
+    "ui_image_plug.c",
+    "ui_image_power_button_resize.c",
+    "ui_image_red_power_button.c",
+    "ui_image_t_emp.c",
+    "vars.h"
+  ]
+}

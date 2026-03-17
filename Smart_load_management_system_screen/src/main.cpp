@@ -24,7 +24,6 @@ static lv_color_t buf[screenWidth * 10];
 /* ================= OBJECTS ================= */
 TFT_eSPI tft;
 XPT2046_Touchscreen touch(XPT2046_CS, XPT2046_IRQ);
-
 /* ================================================= */
 /*               DISPLAY FLUSH CALLBACK              */
 /* ================================================= */
@@ -221,6 +220,10 @@ void setup()
 void loop()
 {
     Serial.println(receivedData.energy1);
+    // lv_label_set_text_fmt(objects.freq_value1, "%d", receivedData.frequency);
+    // lv_label_set_text_fmt(objects.energy_value1, "%d", receivedData.energy1);
+    // lv_label_set_text_fmt(objects.energy_value2, "%d", receivedData.energy2);
+    // lv_label_set_text_fmt(objects.energy_value3, "%d", receivedData.energy3);
     lv_tick_inc(5);
     lv_timer_handler();
     delay(5);
