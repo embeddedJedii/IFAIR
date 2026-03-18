@@ -37,6 +37,7 @@ struct SensorData
   float batteryVoltage;
   float temperature;
   float totalLoad;
+  u_int8_t percentage;
 };
 
 /*

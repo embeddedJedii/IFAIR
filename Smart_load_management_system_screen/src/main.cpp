@@ -237,11 +237,18 @@ void loop()
 
     // For PZEM 3
 
-      lv_label_set_text_fmt(objects.freq_value3, "%.2f", receivedData.frequency);
+    lv_label_set_text_fmt(objects.freq_value3, "%.2f", receivedData.frequency);
     lv_label_set_text_fmt(objects.energy_value3, "%.2f", receivedData.energy3); 
     lv_label_set_text_fmt(objects.current_value3, "%.2f", receivedData.current3);
     lv_label_set_text_fmt(objects.voltage_value3, "%.2f", receivedData.voltage3); 
     lv_label_set_text_fmt(objects.power_value3, "%.2f", receivedData.power3);
+
+    //Populating the main values
+
+    lv_label_set_text_fmt(objects.load_consumption_value, "%.1f", receivedData.energy1 + receivedData.energy2 + receivedData.energy3);
+    lv_label_set_text_fmt(objects.battery_voltage_value, "%.1f", receivedData.batteryVoltage);
+    lv_label_set_text_fmt(objects.temp_value, "%.2f", receivedData.temperature);
+    lv_label_set_text_fmt(objects.battery_percent, "%d", receivedData.percentage);
     lv_tick_inc(5);
     lv_timer_handler();
     delay(5);
