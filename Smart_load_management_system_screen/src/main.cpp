@@ -3,7 +3,7 @@
 #include <lvgl.h>
 #include <TFT_eSPI.h>
 #include <XPT2046_Touchscreen.h>
-#include "slave_I2C.h"
+ #include "slave_I2C.h"
 #include "ui/ui.h"
 #include "ui/images.h"
 #include "ui/screens.h"
@@ -90,7 +90,7 @@ void my_touch_read(lv_indev_t *indev, lv_indev_data_t *data)
     const int Y_MIN = 300;
     const int Y_MAX = 3800;
 
-    // Step 1: swap axes
+//     // Step 1: swap axes
     int16_t x = map(p.y, Y_MIN, Y_MAX, 0, screenWidth);
     int16_t y = map(p.x, X_MIN, X_MAX, 0, screenHeight);
 
@@ -161,6 +161,10 @@ void setup()
     /* ---------- BACKLIGHT ---------- */
     pinMode(LCD_BACKLIGHT_PIN, OUTPUT);
     digitalWrite(LCD_BACKLIGHT_PIN, HIGH);
+     /* ---------- DISPLAY ---------- */
+    tft.init();
+    tft.setRotation(2);
+    tft.fillScreen(TFT_BLACK);
     
      /* ---------- I2C Communication ---------- */
     //Enabling I2C communication within the master and the slave
@@ -168,10 +172,7 @@ void setup()
       Wire.begin(SLAVE_ADDR);
       Wire.onReceive(receiveEvent);
 
-    /* ---------- DISPLAY ---------- */
-    tft.init();
-    tft.setRotation(2);
-    tft.fillScreen(TFT_BLACK);
+   
 
     /* ---------- TOUCH SPI INIT ---------- */
     SPI.begin(XPT2046_CLK, XPT2046_MISO, XPT2046_MOSI, XPT2046_CS);
@@ -191,12 +192,12 @@ void setup()
     );
     lv_display_set_flush_cb(disp, my_disp_flush);
 
-    /* ---------- REGISTER TOUCH (LVGL 9) ---------- */
+    // /* ---------- REGISTER TOUCH (LVGL 9) ---------- */
     lv_indev_t *touch_indev = lv_indev_create();
     lv_indev_set_type(touch_indev, LV_INDEV_TYPE_POINTER);
     lv_indev_set_read_cb(touch_indev, my_touch_read);
 
-    /* ---------- EEZ UI ---------- */
+    // /* ---------- EEZ UI ---------- */
     ui_init();
     // Register "my_button_test_bar" event handler.
   //lv_obj_add_event_cb(objects.my_button_test_bar, my_button_test_bar_event_handler, LV_EVENT_ALL, NULL);
@@ -219,8 +220,9 @@ void setup()
 /*                        LOOP                       */
 /* ================================================= */
 void loop()
-{
-    Serial.println(receivedData.energy1);
+{   delay(1000); // Simulate some delay for receiving data from the master device
+    Serial.println("Receiving the required data from the master device...");
+    Serial.println(receivedData.voltage1);
     lv_label_set_text_fmt(objects.freq_value1, "%.2f", receivedData.frequency);
     lv_label_set_text_fmt(objects.energy_value1, "%.2f", receivedData.energy1); 
     lv_label_set_text_fmt(objects.current_value1, "%.2f", receivedData.current1);
@@ -229,7 +231,7 @@ void loop()
 
     //For PZEM2
 
-      lv_label_set_text_fmt(objects.freq_value2, "%.2f", receivedData.frequency);
+    lv_label_set_text_fmt(objects.freq_value2, "%.2f", receivedData.frequency);
     lv_label_set_text_fmt(objects.energy_value2, "%.2f", receivedData.energy2); 
     lv_label_set_text_fmt(objects.current_value2, "%.2f", receivedData.current2);
     lv_label_set_text_fmt(objects.voltage_value2, "%.2f", receivedData.voltage2); 
@@ -248,7 +250,8 @@ void loop()
     lv_label_set_text_fmt(objects.load_consumption_value, "%.1f", receivedData.energy1 + receivedData.energy2 + receivedData.energy3);
     lv_label_set_text_fmt(objects.battery_voltage_value, "%.1f", receivedData.batteryVoltage);
     lv_label_set_text_fmt(objects.temp_value, "%.2f", receivedData.temperature);
-    lv_label_set_text_fmt(objects.battery_percent, "%d", receivedData.percentage);
+    //lv_label_set_text_fmt(objects.battery_percent, "%d", receivedData.percentage);
+    lv_label_set_text_fmt(objects.ac_voltage, "%.2f", receivedData.voltage1);
     lv_tick_inc(5);
     lv_timer_handler();
     delay(5);

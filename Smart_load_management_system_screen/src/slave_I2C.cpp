@@ -61,7 +61,7 @@ void receiveEvent(int bytes)
     Serial.println(receivedData.batteryVoltage);
     Serial.println(receivedData.temperature);
     Serial.println(receivedData.totalLoad);
-
+    Serial.println(receivedData.percentage);
     Serial.println("---------------------------");
   }
 }
