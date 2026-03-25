@@ -247,22 +247,22 @@ void loop() {
   data.energy3 = pzem3.energy();
 
   data.voltage1 = pzem1.voltage();
-  data.voltage2 = 55;//pzem2.voltage();
+  data.voltage2 = pzem2.voltage();
   data.voltage3 = pzem3.voltage();
 
-  data.current1 = 10;//pzem1.current();
-  data.current2 = 12;//pzem2.current();
-  data.current3 = 8;//pzem3.current();
+  data.current1 = pzem1.current();
+  data.current2 = pzem2.current();
+  data.current3 = pzem3.current();
 
-  data.frequency = 44;//pzem1.frequency(); // Same frequency
-  data.power1 = 78;//pzem1.power();
-  data.power2 = 85;//pzem2.power();
-  data.power3 = 90;//pzem3.power();
+  data.frequency = pzem1.frequency(); // Same frequency
+  data.power1 = pzem1.power();
+  data.power2 = pzem2.power();
+  data.power3 = pzem3.power();
 
-  data.batteryVoltage = 76;//voltage;
-  data.temperature = 98;//temperature;
-  data.totalLoad = 98;//data.power1 + data.power2 + data.power3;
-  data.percentage =29; //batteryPercentage;
+  data.batteryVoltage = voltage;
+  data.temperature = temperature;
+  data.totalLoad = data.power1 + data.power2 + data.power3;
+  data.percentage =batteryPercentage;
 
   sendData();
 

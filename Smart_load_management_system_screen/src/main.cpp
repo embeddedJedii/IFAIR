@@ -250,7 +250,7 @@ void loop()
     lv_label_set_text_fmt(objects.load_consumption_value, "%.1f", receivedData.energy1 + receivedData.energy2 + receivedData.energy3);
     lv_label_set_text_fmt(objects.battery_voltage_value, "%.1f", receivedData.batteryVoltage);
     lv_label_set_text_fmt(objects.temp_value, "%.2f", receivedData.temperature);
-    //lv_label_set_text_fmt(objects.battery_percent, "%d", receivedData.percentage);
+    lv_label_set_text_fmt(objects.battery_percent, "%d", receivedData.percentage);
     lv_label_set_text_fmt(objects.ac_voltage, "%.2f", receivedData.voltage1);
     lv_tick_inc(5);
     lv_timer_handler();
