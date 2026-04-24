@@ -33,9 +33,9 @@ void readPZEM(PZEM004Tv30 &pzem, String name)
 
 void shutDownPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3, int batteryPercentage)
 {
-    float power1 = pzem1.power();
-    float power2 = pzem2.power();
-    float power3 = pzem3.power();
+    float power1 = 50;//pzem1.power(); 
+    float power2 = 15;//pzem2.power();
+    float power3 = 20; //pzem3.power();
     if(isnan(power1)) power1 = 0;
     if(isnan(power2)) power2 = 0;
     if(isnan(power3)) power3 = 0;
@@ -49,6 +49,7 @@ void shutDownPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3,
         digitalWrite(COIL_3, HIGH);
         status1 = 0; // Assuming 0 means off
         updateSystemStatus();
+        
     } else if (power2 > power1 && power2 > power3) {
         Serial.println("PZEM 2 has the highest power consumption.");
         digitalWrite(COIL_2, LOW); // Assuming LOW turns off the load
@@ -116,7 +117,7 @@ void shutDownPiority(PZEM004Tv30 &pzem1, PZEM004Tv30 &pzem2, PZEM004Tv30 &pzem3,
         digitalWrite(COIL_3, LOW);
         status1 = status2= status3 = systemStatus = 0; // Assuming 0 means off
     }
-}
+}  
 void turnOnPiority(int batteryPercentage){
 if(!systemStatus){
     // This means that all the loads are currently off

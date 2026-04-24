@@ -9,6 +9,7 @@ float vRef = 3.3;
 
 float readVoltage() {
     int adc = analogRead(BATTERY_PIN);
+    if (adc >= 4095) adc = 4095; // Ensure adc is non-negative
     Serial.printf("The ADC value is %d", adc);
     float vOut = (adc / adcMax) * vRef;
     float vin = vOut * (R1 + R2) / R2; // actual battery voltage
@@ -24,7 +25,7 @@ float getBatteryPercentage(float voltage) {
         maxV = 58.8;
     } else {           // 24V battery
         minV = 21.0;
-        maxV = 29.4;
+        maxV = 29.1;
     }
 
     float percentage = ((voltage - minV) / (maxV - minV)) * 100;

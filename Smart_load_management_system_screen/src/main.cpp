@@ -15,7 +15,7 @@
 #define XPT2046_CS    33
 
 /* ================= LCD ================= */
-#define LCD_BACKLIGHT_PIN 21
+#define LCD_BACKLIGHT_PIN 2
 static const uint16_t screenWidth  = 800;
 static const uint16_t screenHeight = 480;
 #define LED_PIN 27

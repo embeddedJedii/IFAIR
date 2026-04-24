@@ -168,8 +168,12 @@
 #include "thermistor.h"
 
 #define fanPin 18
+const uint8_t COIL_1 = 27;
+const uint8_t COIL_2 = 26;
+const uint8_t COIL_3 = 25;
 
-float batteryPercentage;
+
+float batteryPercentage = 43; // Assuming battery percentage is 70 for testing
 
 // UART2 for first two PZEMs
 HardwareSerial pzemSerial(2);
@@ -195,28 +199,31 @@ void setup() {
   pzemSerial3.begin(9600, SERIAL_8N1, 2, 4);
 
   Wire.begin();
-
-  pinMode(fanPin, OUTPUT);
-
+    pinMode(COIL_1, OUTPUT);
+    pinMode(COIL_2, OUTPUT);
+    pinMode(COIL_3, OUTPUT);
+    pinMode(fanPin, OUTPUT);
   Serial.println("Energy Meter System Starting...");
 }
 
 void loop() {
 
-  readPZEM(pzem1, "PZEM 1 (0x01)");
+readPZEM(pzem1, "PZEM 1 (0x01)");
+  delay(100);
+// digitalWrite(COIL_1, HIGH);
+// digitalWrite(COIL_2, HIGH);
+// digitalWrite(COIL_3, HIGH);
+readPZEM(pzem2, "PZEM 2 (0x02)");
   delay(100);
 
-  readPZEM(pzem2, "PZEM 2 (0x02)");
+readPZEM(pzem3, "PZEM 3 (0x03)");
   delay(100);
 
-  readPZEM(pzem3, "PZEM 3 (0x03)");
-  delay(100);
-
-  float voltage = readVoltage() + 2.77;
+  float voltage = readVoltage() + 2.47;
 
   batteryPercentage = getBatteryPercentage(voltage);
 
-  if(voltage > 30)
+  if(voltage > 20)
       Serial.println("48V Battery Detected");
   else
       Serial.println("24V Battery Detected");
@@ -230,13 +237,13 @@ void loop() {
 
   Serial.println("----------------------");
 
-  shutDownPiority(pzem1, pzem2, pzem3, batteryPercentage);
-  turnOnPiority(batteryPercentage);
+ shutDownPiority(pzem1, pzem2, pzem3, batteryPercentage);
+ turnOnPiority(batteryPercentage);
 
   float temperature = tempData();
 
-  if(temperature > 32.0)
-      digitalWrite(fanPin, HIGH);
+  if(temperature > 38.0)
+      digitalWrite(fanPin, HIGH); 
   else
       digitalWrite(fanPin, LOW);
 
@@ -254,13 +261,12 @@ void loop() {
   data.current2 = pzem2.current();
   data.current3 = pzem3.current();
 
-  data.frequency = pzem1.frequency(); // Same frequency
+  data.frequency = pzem3.frequency(); // Same frequency
   data.power1 = pzem1.power();
   data.power2 = pzem2.power();
   data.power3 = pzem3.power();
-
   data.batteryVoltage = voltage;
-  data.temperature = temperature;
+  data.temperature =temperature;
   data.totalLoad = data.power1 + data.power2 + data.power3;
   data.percentage =batteryPercentage;
 
