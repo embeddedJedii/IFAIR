@@ -32,6 +32,7 @@ void updateSystemStatus()
     systemStatus = status1 || status2 || status3;
 }
 void readPZEM(PZEM004Tv30 &pzem, String name)
+
 {
     float voltage = pzem.voltage();
     float current = pzem.current();
@@ -200,12 +201,12 @@ else if(isCharging){
     float energy2 = (pzem2.energy() *1000) + 0.2;
     float energy3 = (pzem3.energy() *1000) + 0.3;
 
-    if(isnan(energy1)) energy1 = 0;
-    if(isnan(energy2)) energy2 = 0;
-    if(isnan(energy3)) energy3 = 0;
+    if(isnan(energy1)) energy1 = 0.1;
+    if(isnan(energy2)) energy2 = 0.2;
+    if(isnan(energy3)) energy3 = 0.3;
 
     // -------- ABOVE 75% --------
-    if(batteryPercentage > 75) {
+    if(batteryPercentage > 70) {
 
         if(!chargeDone_75){
 
@@ -228,7 +229,7 @@ else if(isCharging){
     }
 
     // -------- 75% → 45% --------
-    else if(batteryPercentage <= 75 && batteryPercentage > 45) {
+    else if(batteryPercentage <= 70 && batteryPercentage > 45) {
 
         if(!chargeDone_75_45){
 

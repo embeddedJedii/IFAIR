@@ -11,7 +11,7 @@ const uint8_t COIL_2 = 26;
 const uint8_t COIL_3 = 25;
 
 
-float batteryPercentage = 43; // Assuming battery percentage is 70 for testing
+float batteryPercentage;
 
 // UART2 for first two PZEMs
 HardwareSerial pzemSerial(2);
@@ -74,6 +74,19 @@ readPZEM(pzem3, "PZEM 3 (0x03)");
   Serial.println("%");
 
   Serial.println("----------------------");
+
+static bool resetDone = false;
+
+if(batteryPercentage >= 100 && !resetDone){
+    pzem1.resetEnergy();
+    pzem2.resetEnergy();
+    pzem3.resetEnergy();
+    resetDone = true;
+}
+
+if(batteryPercentage < 100){
+    resetDone = false;
+}
 shutDownPiority(pzem1, pzem2, pzem3, batteryPercentage);
  //turnOnPiority(batteryPercentage);
 
