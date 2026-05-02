@@ -7,14 +7,35 @@ float R2 = 3300.0;  // 3.3k
 float adcMax = 4095.0; // ESP32 12-bit ADC
 float vRef = 3.3;
 
+float filteredVoltage = -1;  // use -1 to detect first run
+
 float readVoltage() {
-    int adc = analogRead(BATTERY_PIN);
-    if (adc >= 4095) adc = 4095; // Ensure adc is non-negative
-    Serial.printf("The ADC value is %d", adc);
+    const int samples = 30;
+    uint32_t sum = 0;
+
+    // take multiple samples
+    for (int i = 0; i < samples; i++) {
+        sum += analogRead(BATTERY_PIN);
+        delayMicroseconds(200);  // small delay improves stability
+    }
+
+    float adc = sum / (float)samples;
+
+    // convert to voltage
     float vOut = (adc / adcMax) * vRef;
-    float vin = vOut * (R1 + R2) / R2; // actual battery voltage
-    return vin;
-} 
+    float vin = vOut * (R1 + R2) / R2;
+
+    // initialize filter properly
+    if (filteredVoltage < 0) {
+        filteredVoltage = vin;  // first reading = real value
+    } else {
+        // exponential smoothing
+        float alpha = 0.2;  // increase for faster response (0.1–0.3)
+        filteredVoltage = (alpha * vin) + ((1 - alpha) * filteredVoltage);
+    }
+   
+    return filteredVoltage +2.57;
+}
 
 float getBatteryPercentage(float voltage) {
     float minV, maxV;
