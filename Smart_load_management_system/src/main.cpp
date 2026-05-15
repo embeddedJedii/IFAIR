@@ -84,7 +84,7 @@ if(batteryPercentage >= 100 && !resetDone){
     resetDone = true;
 }
 
-if(batteryPercentage < 100){
+if(batteryPercentage < 100){++
     resetDone = false;
 }
 shutDownPiority(pzem1, pzem2, pzem3, batteryPercentage);
@@ -106,12 +106,15 @@ shutDownPiority(pzem1, pzem2, pzem3, batteryPercentage);
   data.voltage1 = pzem1.voltage();
   data.voltage2 = pzem2.voltage();
   data.voltage3 = pzem3.voltage();
-
+  // data.totalVoltage = data.voltage1 || data.voltage2 ||data.voltage3;
   data.current1 = pzem1.current();
   data.current2 = pzem2.current();
   data.current3 = pzem3.current();
 
-  data.frequency = pzem3.frequency(); // Same frequency
+  data.frequency = pzem1.frequency(); // Same frequency
+  // data.frequency2 = pzem2.frequency(); // Same frequency
+  // data.frequency3 = pzem3.frequency(); // Same frequency
+
   data.power1 = pzem1.power();
   data.power2 = pzem2.power();
   data.power3 = pzem3.power();

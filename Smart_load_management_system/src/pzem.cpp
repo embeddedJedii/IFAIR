@@ -134,7 +134,7 @@ else if (batteryPercentage <= 45 && batteryPercentage > 25) {
         // Count active loads
         int activeCount = status1 + status2 + status3;
 
-        if (activeCount == 2) {
+       if (activeCount >= 2) {
 
             // Compare ONLY the 2 active ones
             if (status1 && status2) {
@@ -142,10 +142,12 @@ else if (batteryPercentage <= 45 && batteryPercentage > 25) {
                 if (power1 > power2) {
                     Serial.println("Stage 45%: Turning OFF Load 1");
                     digitalWrite(COIL_1, LOW);
+                    digitalWrite(COIL_3, LOW);
                     status1 = 0;
                 } else {
                     Serial.println("Stage 45%: Turning OFF Load 2");
                     digitalWrite(COIL_2, LOW);
+                    digitalWrite(COIL_3, LOW);
                     status2 = 0;
                 }
 
@@ -154,10 +156,12 @@ else if (batteryPercentage <= 45 && batteryPercentage > 25) {
                 if (power1 > power3) {
                     Serial.println("Stage 45%: Turning OFF Load 1");
                     digitalWrite(COIL_1, LOW);
+                    digitalWrite(COIL_2, LOW);
                     status1 = 0;
                 } else {
                     Serial.println("Stage 45%: Turning OFF Load 3");
                     digitalWrite(COIL_3, LOW);
+                    digitalWrite(COIL_2, LOW);
                     status3 = 0;
                 }
 
@@ -166,10 +170,12 @@ else if (batteryPercentage <= 45 && batteryPercentage > 25) {
                 if (power2 > power3) {
                     Serial.println("Stage 45%: Turning OFF Load 2");
                     digitalWrite(COIL_2, LOW);
+                    digitalWrite(COIL_1, LOW);
                     status2 = 0;
                 } else {
                     Serial.println("Stage 45%: Turning OFF Load 3");
                     digitalWrite(COIL_3, LOW);
+                    digitalWrite(COIL_1, LOW);
                     status3 = 0;
                 }
             }
@@ -200,6 +206,7 @@ else if(isCharging){
     float energy1 = (pzem1.energy() *1000) + 0.1;
     float energy2 = (pzem2.energy() *1000) + 0.2;
     float energy3 = (pzem3.energy() *1000) + 0.3;
+
 
     if(isnan(energy1)) energy1 = 0.1;
     if(isnan(energy2)) energy2 = 0.2;
